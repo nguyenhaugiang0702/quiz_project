@@ -3,6 +3,7 @@
 import { useState } from "react";
 import api from "@/app/lib/api";
 import Cookies from 'js-cookie';
+import Link from 'next/link'
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -56,6 +57,13 @@ export default function LoginPage() {
         >
           Đăng nhập
         </button>
+        {/* Nút chuyển sang trang đăng ký */}
+        <p className="text-center mt-4 text-sm text-gray-600">
+        Chưa có tài khoản?{' '}
+        <Link href="/ui/signup" className="text-blue-500 hover:underline">
+            Đăng ký
+        </Link>
+        </p>
       </form>
     </div>
   );

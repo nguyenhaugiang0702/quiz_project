@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import api from "@/app/lib/api";
+import Link from 'next/link'
 
 export default function SignupPage() {
   const [username, setUsername] = useState("");
@@ -10,15 +12,15 @@ export default function SignupPage() {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:3000/auth/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, email, password }),
-    });
-
-    const data = await res.json();
-    console.log(data);
-    alert(data.message || "Đăng ký thất bại");
+    try {
+        const response = await api.post("/auth/signup", {username, email, password});
+        alert(response.data.message || "Đăng ký thành công");
+    } catch (error: any) {
+        console.error(error);
+        const message =
+        error.response?.data?.message || "Đăng ký thất bại";
+        alert(message);
+    }
   };
 
   return (
@@ -54,10 +56,17 @@ export default function SignupPage() {
         />
         <button
           type="submit"
-          className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
+          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
         >
           Đăng ký
         </button>
+        {/* Nút chuyển sang trang đăng nhập */}
+        <p className="text-center mt-4 text-sm text-gray-600">
+        Nếu có tài khoản{' '}
+        <Link href="/ui/login" className="text-blue-500 hover:underline">
+            Đăng nhập
+        </Link>
+        </p>
       </form>
     </div>
   );
