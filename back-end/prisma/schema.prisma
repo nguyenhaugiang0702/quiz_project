@@ -29,10 +29,17 @@ model Exam {
   title     String
   description String?
   duration  Int
+  status    ExamStatus   @default(DRAFT)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   questions Question[]
   submissions Submission[]
+}
+
+enum ExamStatus {
+  DRAFT       // chưa xuất bản, student không thấy
+  PUBLISHED   // đã xuất bản, student có thể xem
+  CLOSED      // kết thúc, student có thể xem nhưng không làm nữa
 }
 
 model Question {
